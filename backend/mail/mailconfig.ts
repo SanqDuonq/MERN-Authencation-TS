@@ -7,4 +7,4 @@ const senderEmail = 'mailtrap@demomailtrap.com'
 
 export const mailClient = new MailtrapClient({token: token})
 
-export const sender = {name: 'Namsang', email: senderEmail}
+export const sender = {name: 'NamSang', email: senderEmail}

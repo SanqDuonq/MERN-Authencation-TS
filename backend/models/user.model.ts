@@ -1,17 +1,6 @@
 import { timeStamp } from "console";
 import mongoose, { Schema } from "mongoose";
-
-interface IUser extends Document {
-    email: string
-    password: string
-    name: string
-    lastLogin: Date
-    isVerified: Boolean
-    resetPasswordToken: string
-    resetPasswordExpiredAt: Date
-    verificationToken: string | undefined
-    verificationExpiredAt: Date | undefined
-}
+import { IUser } from "../interface/user.interface";
 
 const userSchema:Schema<IUser> = new Schema({
     email: {
@@ -39,6 +28,7 @@ const userSchema:Schema<IUser> = new Schema({
     resetPasswordExpiredAt: Date,
     verificationToken: String,
     verificationExpiredAt:Date,
+
 },{timestamps:true})
 
 export const User = mongoose.model('User',userSchema)

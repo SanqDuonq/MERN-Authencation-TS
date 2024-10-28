@@ -106,3 +106,158 @@ export const VERICATION_EMAIL_TEMPLATE = `
 
 
 `
+
+export const PASSWORD_RESET_REQUEST_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .email-header {
+      text-align: center;
+      font-size: 24px;
+      color: #333333;
+    }
+    .email-body {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #555555;
+      line-height: 1.6;
+    }
+    .email-footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #999999;
+      text-align: center;
+    }
+    .reset-button {
+      display: block;
+      width: fit-content;
+      margin: 20px auto;
+      padding: 12px 25px;
+      background-color: #28a745;
+      color: #ffffff;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .reset-button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <h1 class="email-header">Reset Your Password</h1>
+    <div class="email-body">
+      <p>Hello,</p>
+      <p>You requested a password reset for your account. Please click the button below to reset your password:</p>
+      <a href="{resetURL}" class="reset-button">Reset Password</a>
+      <p>If you did not request this, please ignore this email.</p>
+    </div>
+    <div class="email-footer">
+      <p>Thank you,<br>Your Company Team</p>
+    </div>
+  </div>
+</body>
+</html>
+
+`
+
+export const PASSWORD_RESET_SUCCESS_TEMPLATE = ` 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password Successful</title>
+    <style>
+        /* Định dạng chung */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Khung chính */
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Tiêu đề */
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        /* Icon thành công */
+        .icon-success {
+            font-size: 50px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        /* Nội dung */
+        p {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* Button đăng nhập */
+        .btn-login {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #ffffff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon-success">✔️</div>
+        <h2>Đặt lại mật khẩu thành công!</h2>
+        <p>Mật khẩu của bạn đã được thay đổi thành công. Bạn có thể đăng nhập bằng mật khẩu mới.</p>
+    </div>
+</body>
+</html>
+
+`

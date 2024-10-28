@@ -1,10 +1,7 @@
-import { VERICATION_EMAIL_TEMPLATE } from "./mail-templates";
+import { PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_RESET_SUCCESS_TEMPLATE, VERICATION_EMAIL_TEMPLATE } from "./mail-templates";
 import { mailClient, sender } from "./mailconfig";
 
-export const sendVerificationEmail = async (
-  email: string,
-  verificationToken: string
-) => {
+export const sendVerificationEmail = async (email: string,verificationToken: string) => {
   const recipient = [{ email }];
   try {
     const response = await mailClient.send({
@@ -41,3 +38,36 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
     console.log(`Error sending welcome email ${error}`);
   }
 };
+
+export const sendPasswordReset = async (email:string, resetURL:string) => {
+    const recipient = [{email}]
+
+    try {
+      const response = await mailClient.send({
+        from: sender,
+        to: recipient,
+        subject: 'Reset Password',
+        html: PASSWORD_RESET_REQUEST_TEMPLATE.replace('{resetURL}',resetURL),
+        category: 'Password Reset'
+      })
+    } catch (error) {
+        console.log(`Error sending reset password`,error)
+    }
+}
+
+export const sendResetSuccessEmail = async(email:string) => {
+  const recipient = [{email}]
+
+  try {
+    const response = await mailClient.send({
+      from:sender,
+      to:recipient,
+      subject: "Password Reset Succesfully",
+      html: PASSWORD_RESET_SUCCESS_TEMPLATE,
+      category: 'Password Reset'
+    })
+    console.log('Password reset email sent successfully',response)
+  } catch (error) {
+      console.log('Error sending password reset success email',error)
+  }
+}
