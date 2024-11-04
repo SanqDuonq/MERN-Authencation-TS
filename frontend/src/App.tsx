@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import { FloatShape } from "./components/float-shape"
 import { SignUpPage } from "./pages/sign-up"
 import { LoginPage } from "./pages/login"
+import { EmailVerifyPage } from "./pages/emai-verify"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
               <Route path="/" element = {'Home'} />
               <Route path="/sign-up" element = {<SignUpPage/>} />
               <Route path="/login" element = {<LoginPage/>} />
+              <Route path="/verify-email" element = {<EmailVerifyPage/>}/>
             </Routes>
         </div>
     </>

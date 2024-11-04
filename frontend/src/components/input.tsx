@@ -1,13 +1,14 @@
-import { ChangeEvent } from "react"
+import { ChangeEvent, ComponentType } from "react"
 
 interface InputProps {
-  icon: any
+  icon: ComponentType<{className?:string}>
   name: string
   value: string
+  type: string
   onChange: (e:ChangeEvent<HTMLInputElement>) => void
 }
 
-export const InputComponent = ({icon:Icon,name,value,onChange}:InputProps) => {
+export const InputComponent = ({icon:Icon,name,value,type,onChange}:InputProps) => {
   return (
     <>
         <div className="relative mb-6">
@@ -15,6 +16,7 @@ export const InputComponent = ({icon:Icon,name,value,onChange}:InputProps) => {
                 <Icon className='size-5 text-green-500'/>
             </div>
             <input
+                type={type}
                 placeholder={name}
                 value={value}
                 onChange={onChange}
