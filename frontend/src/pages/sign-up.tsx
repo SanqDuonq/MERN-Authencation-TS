@@ -1,15 +1,33 @@
 import {motion} from 'framer-motion'
 import { InputComponent } from '../components/input'
-import { Lock, Mail, User } from 'lucide-react'
+import { LoaderCircle, Lock, Mail, User } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { PasswordStrength } from '../components/password-strength'
+import { useAuthStore } from '../components/store/auth-store'
+type AuthState = {
+    user: unknown
+    isAuthenticated: boolean;
+    error: string | null;
+    isLoading: boolean;
+    isCheckingAuth: boolean;
+    signup: (email: string, password: string, name: string) => Promise<void>;
+};
 export const SignUpPage = () => {
     const [name,setName] = useState('')
     const [mail,setMail] = useState('')
     const [password,setPassword] = useState('')
-    const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+    
+    const {signup,isLoading,error} = useAuthStore() as AuthState
+    const navigate = useNavigate()
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        try {
+            await signup(mail,password,name)
+            navigate('/verify-email')
+        } catch (error) {
+            console.log('Error',error)
+        }
     }
 
   return (
@@ -43,6 +61,7 @@ export const SignUpPage = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
+                {error && <p className='text-red-500 font-semibold text-sm text-center'>{error}</p>}
                 <PasswordStrength 
                     password={password}
                 />
@@ -53,8 +72,9 @@ export const SignUpPage = () => {
                     whileHover={{scale:1.02}}
                     whileTap={{scale:0.98}}
                     type='submit'
+                    disabled={isLoading}
                 >
-                    Sign Up
+                    {isLoading ? <LoaderCircle className=' animate-spin mx-auto size-8' /> : 'Sign Up'}
                 </motion.button>
             </form>
         </div>
