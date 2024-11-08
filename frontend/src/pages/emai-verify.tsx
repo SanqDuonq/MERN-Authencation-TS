@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react"
 // import { useNavigate } from "react-router-dom"
 import { motion } from 'framer-motion'
+// import { useAuthStore } from "../components/store/auth-store"
 export const EmailVerifyPage = () => {
     const [code, setCode] = useState(["", "", "", "", "", ""])
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
-    // const navigate = useNavigate()
     const isLoading = false
+    // const {verifyEmail,isLoading,isError} = useAuthStore()
+    // const navigate = useNavigate()
     const handleChange = (index:number, value:string) => {
         const newCode = [...code]
 
@@ -40,11 +42,16 @@ export const EmailVerifyPage = () => {
         }
     }
 
-    const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const verifyCode = code.join('')
-        console.log(`Verification code submitted: ${verifyCode}`)
-        
+        // const verifyCode = code.join('')
+        // try {
+        //     await verifyEmail(verifyCode)
+        //     navigate('/')
+        //     toast.success('Email verified successfully')
+        // } catch (error) {
+            
+        // }
     }
     //Auto submit 
     useEffect(() => {
