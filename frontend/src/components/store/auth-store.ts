@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import axios from 'axios'
-
 const API_URL = "http://localhost:5000/api/auth"
 
 axios.defaults.withCredentials = true;
@@ -9,6 +8,7 @@ interface User {
   id: string;
   email: string;
   name: string;
+  isVerified?: boolean
 }
 
 interface AuthStore {
@@ -20,6 +20,7 @@ interface AuthStore {
   signup: (email: string, password: string, name: string) => Promise<void>;
   verifyEmail: (code: string) => Promise<{ newUser: User }>;
   checkAuth: () => Promise<void>
+  login: (email:string,password:string) => Promise<void>
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -43,7 +44,25 @@ export const useAuthStore = create<AuthStore>((set) => ({
       throw error;
     }
   },
-
+  login: async(email,password) => {
+    set({isLoading:true,error: null})
+    try {
+      const response = await axios.post(`${API_URL}/login`,{email,password})
+      set({
+        isAuthenticated:true,
+        user: response.data.user,
+        error: null,
+        isLoading:false
+      })
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        set({ error: error.response?.data?.message || 'Error verifying email', isLoading: false });
+      } else {
+        set({ error: 'An unknown error occurred', isLoading: false });
+      }
+      throw error;
+    }
+  },
   verifyEmail: async (code) => {
     set({ isLoading: true, error: null });
     try {
