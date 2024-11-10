@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from "react"
-// import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { motion } from 'framer-motion'
-// import { useAuthStore } from "../components/store/auth-store"
+import { useAuthStore } from "../components/store/auth-store"
+import toast from "react-hot-toast"
+import { LoaderCircle } from "lucide-react"
 export const EmailVerifyPage = () => {
     const [code, setCode] = useState(["", "", "", "", "", ""])
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
-    const isLoading = false
-    // const {verifyEmail,isLoading,isError} = useAuthStore()
-    // const navigate = useNavigate()
+    const {verifyEmail,isLoading,error} = useAuthStore()
+    const navigate = useNavigate()
     const handleChange = (index:number, value:string) => {
         const newCode = [...code]
 
@@ -44,14 +45,14 @@ export const EmailVerifyPage = () => {
 
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // const verifyCode = code.join('')
-        // try {
-        //     await verifyEmail(verifyCode)
-        //     navigate('/')
-        //     toast.success('Email verified successfully')
-        // } catch (error) {
-            
-        // }
+        const verifyCode = code.join('')
+        try {
+            await verifyEmail(verifyCode)
+            navigate('/')
+            toast.success('Email verified successfully')
+        } catch (error) {
+            console.log(error)
+        }
     }
     //Auto submit 
     useEffect(() => {
@@ -93,6 +94,7 @@ export const EmailVerifyPage = () => {
                                     />
                                 ))}
                             </div>
+                            {error && <p className="text-red-500 font-semibold mt-2">{error}</p> }
                             <motion.button
                                 className='mt-5 w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white
                                             font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-green-500
@@ -102,7 +104,7 @@ export const EmailVerifyPage = () => {
                                 type='submit'
                                 disabled={isLoading || code.some((digit => !digit))}
                             >
-                                {isLoading ? 'Verifying...' : 'Verify Email'}
+                                {isLoading ? <LoaderCircle className="size-6 animate-spin mx-auto"/> : 'Verify Email'}
                             </motion.button>
                         </form>
                     </div>

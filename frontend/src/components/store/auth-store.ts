@@ -1,44 +1,72 @@
-import {create} from 'zustand'
+import { create } from 'zustand'
 import axios from 'axios'
 
 const API_URL = "http://localhost:5000/api/auth"
 
 axios.defaults.withCredentials = true;
-export const useAuthStore = create((set => ({
-    user: null,
-    isAuthenticated: false,
-    error: null,
-    isLoading: false,
-    isCheckingAuth: true,
 
-    signup: async(email:string,password:string,name:string) => {
-        set({isLoading:true,error:null})
-        try {
-            const response = await axios.post(`${API_URL}/signup`,{email,password,name})
-            set({user: response.data.newUser,isAuthenticated:true,isLoading:false})
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                set({ error: error.response?.data?.message || 'Error signing up', isLoading: false });
-            } else {
-                set({ error: 'An unknown error occurred', isLoading: false });
-            }
-            throw error;
-        }
-    },
-    verifyEmail: async(code:string) => {
-        set({isLoading:true,error:null})
-        try {
-            const response = await axios.post(`${API_URL}/verify-email`,{code})
-            set({user: response.data.newUser,isAuthenticated: true,isLoading:false})
-            return response.data
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                set({ error: error.response?.data?.message || 'Error signing up', isLoading: false });
-            } else {
-                set({ error: 'An unknown error occurred', isLoading: false });
-            }
-            throw error;
-        }
+interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
+interface AuthStore {
+  user: User | null;
+  isAuthenticated: boolean;
+  error: string | null;
+  isLoading: boolean;
+  isCheckingAuth: boolean;
+  signup: (email: string, password: string, name: string) => Promise<void>;
+  verifyEmail: (code: string) => Promise<{ newUser: User }>;
+  checkAuth: () => Promise<void>
+}
+
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
+  isAuthenticated: false,
+  error: null,
+  isLoading: false,
+  isCheckingAuth: true,
+
+  signup: async (email, password, name) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/signup`, { email, password, name });
+      set({ user: response.data.newUser, isAuthenticated: true, isLoading: false });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        set({ error: error.response?.data?.message || 'Error signing up', isLoading: false });
+      } else {
+        set({ error: 'An unknown error occurred', isLoading: false });
+      }
+      throw error;
     }
-    
-})))
+  },
+
+  verifyEmail: async (code) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/verify-email`, { code });
+      set({ user: response.data.newUser, isAuthenticated: true, isLoading: false });
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        set({ error: error.response?.data?.message || 'Error verifying email', isLoading: false });
+      } else {
+        set({ error: 'An unknown error occurred', isLoading: false });
+      }
+      throw error;
+    }
+  },
+
+  checkAuth: async () => {
+    set({isCheckingAuth:true,error:null})
+    try {
+        const response = await axios.get(`${API_URL}/check-auth`)
+        set({user: response.data.user, isAuthenticated: true,isCheckingAuth:false})
+    } catch (error) {
+        set({error: null,isCheckingAuth:false,isAuthenticated:false})
+    }
+  }
+}));
