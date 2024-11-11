@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast'
 import { useAuthStore } from "./components/store/auth-store"
 import { ReactNode, useEffect } from "react"
 import { DashBoardPage } from "./pages/dashboard"
+import { LoadingSpinner } from "./components/loading-spinner"
 
 
 //protect routes that requires authencation
@@ -34,8 +35,8 @@ function App() {
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
-  console.log('isAuthenticated', isAuthenticated)
-  console.log('user', user)
+  
+  if (isCheckingAuth) return <LoadingSpinner/>
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-900 flex items-center justify-center relative overflow-hidden">

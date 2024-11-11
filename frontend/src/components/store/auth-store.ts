@@ -9,6 +9,7 @@ interface User {
   email: string;
   name: string;
   isVerified?: boolean
+  createdAt: Date
 }
 
 interface AuthStore {
@@ -21,6 +22,7 @@ interface AuthStore {
   verifyEmail: (code: string) => Promise<{ newUser: User }>;
   checkAuth: () => Promise<void>
   login: (email:string,password:string) => Promise<void>
+  logout: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -62,6 +64,15 @@ export const useAuthStore = create<AuthStore>((set) => ({
       }
       throw error;
     }
+  },
+  logout: async () => {
+      set ({isLoading:true,error:null})
+      try {
+        await axios.post(`${API_URL}/logout`)
+        set({isLoading:false,error:null,isAuthenticated:false,user:null})
+      } catch (error) {
+        set({error: 'Error logging out',isLoading:false})
+      }
   },
   verifyEmail: async (code) => {
     set({ isLoading: true, error: null });
