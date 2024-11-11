@@ -4,12 +4,14 @@ import { InputComponent } from "../components/input"
 import { Lock, Mail,LoaderCircle } from 'lucide-react'
 import { Link } from "react-router-dom"
 import { useAuthStore } from "../components/store/auth-store"
+import toast from "react-hot-toast"
 export const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const {login,isLoading,error} = useAuthStore()
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     await login(email,password)
+    toast.success('Login success')
     e.preventDefault()
   }
   return (

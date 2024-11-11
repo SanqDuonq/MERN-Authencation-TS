@@ -8,15 +8,17 @@ import { useAuthStore } from "./components/store/auth-store"
 import { ReactNode, useEffect } from "react"
 import { DashBoardPage } from "./pages/dashboard"
 import { LoadingSpinner } from "./components/loading-spinner"
+import { ForgotPasswordPage } from "./pages/forgot-password"
+import { ResetPasswordPage } from "./pages/reset-password"
 
 
 //protect routes that requires authencation
-const ProtectRoute = ({children}: {children:ReactNode}):JSX.Element => {
-  const {isAuthenticated,user} = useAuthStore()
-  if (!isAuthenticated) 
-    return <Navigate to='/login' replace/>
+const ProtectRoute = ({ children }: { children: ReactNode }): JSX.Element => {
+  const { isAuthenticated, user } = useAuthStore()
+  if (!isAuthenticated)
+    return <Navigate to='/login' replace />
   if (!user?.isVerified)
-    return <Navigate to='/verify-email' replace/>
+    return <Navigate to='/verify-email' replace />
 
   return <>{children}</>
 }
@@ -31,12 +33,12 @@ const RedirectAuthenticated = (({ children }: { children: ReactNode }): JSX.Elem
   return <>{children}</>
 })
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore()
+  const { isCheckingAuth, checkAuth } = useAuthStore()
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
-  
-  if (isCheckingAuth) return <LoadingSpinner/>
+
+  if (isCheckingAuth) return <LoadingSpinner />
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-900 flex items-center justify-center relative overflow-hidden">
@@ -45,22 +47,51 @@ function App() {
         <FloatShape color='bg-lime-500' size='w-32 h-32' top='40%' left='-10%' delay={2} />
 
         <Routes>
-          <Route path="/" element={
-            <ProtectRoute>
-              <DashBoardPage/>
-            </ProtectRoute>
-          } />
-          <Route path="/sign-up" element={
-            <RedirectAuthenticated>
-              <SignUpPage />
-            </RedirectAuthenticated>}
+          <Route
+            path="/"
+            element={
+              <ProtectRoute>
+                <DashBoardPage />
+              </ProtectRoute>
+            }
           />
-          <Route path="/login" element={
-            <RedirectAuthenticated>
-              <LoginPage />
-            </RedirectAuthenticated>
-          } />
-          <Route path="/verify-email" element={<EmailVerifyPage />} />
+          <Route
+            path="/sign-up"
+            element={
+              <RedirectAuthenticated>
+                <SignUpPage />
+              </RedirectAuthenticated>}
+          />
+          <Route
+            path="/login"
+            element={
+              <RedirectAuthenticated>
+                <LoginPage />
+              </RedirectAuthenticated>
+            }
+          />
+          <Route
+            path="/verify-email"
+            element={<EmailVerifyPage />}
+          />
+
+          <Route
+            path="/forgot-password"
+            element={
+              <RedirectAuthenticated>
+                <ForgotPasswordPage />
+              </RedirectAuthenticated>
+            }
+          />
+
+          <Route
+            path="/reset-password/:token"
+            element={
+              <RedirectAuthenticated>
+                <ResetPasswordPage />
+              </RedirectAuthenticated>
+            }
+          />
         </Routes>
         <Toaster />
       </div>

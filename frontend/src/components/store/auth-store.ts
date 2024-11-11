@@ -18,11 +18,14 @@ interface AuthStore {
   error: string | null;
   isLoading: boolean;
   isCheckingAuth: boolean;
+  message?: string
   signup: (email: string, password: string, name: string) => Promise<void>;
   verifyEmail: (code: string) => Promise<{ newUser: User }>;
   checkAuth: () => Promise<void>
   login: (email:string,password:string) => Promise<void>
   logout: () => Promise<void>
+  forgotPassword: (email:string) => Promise<void>
+  resetPassword: (token:string,password:string) => Promise<void>
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -97,6 +100,28 @@ export const useAuthStore = create<AuthStore>((set) => ({
         set({user: response.data.user, isAuthenticated: true,isCheckingAuth:false})
     } catch (error) {
         set({error: null,isCheckingAuth:false,isAuthenticated:false})
+    }
+  },
+  forgotPassword: async (email) => {
+    set({isLoading: true,error: null})
+    try {
+      const response = await axios.post(`${API_URL}/forgot-password`,{email})
+      set({message: response.data.message,isLoading:false})
+    } catch (error) {
+      set({isLoading:false})
+      console.log('Error sending reset password email')
+      throw error;
+    }
+  },
+  resetPassword: async (token,password) => {
+    set({isLoading:true,error:null})
+    try {
+      const response = await axios.post(`${API_URL}/reset-password/${token}`,{password})
+      set({message: response.data.message, isLoading:false})
+    } catch (error) {
+        set({isLoading:false})
+        console.log('Error resetting password')
+        throw error;
     }
   }
 }));

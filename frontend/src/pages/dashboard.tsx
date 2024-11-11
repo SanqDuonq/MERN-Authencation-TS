@@ -17,7 +17,7 @@ export const DashBoardPage = () => {
 
             >
                 <p
-                    className='text-3xl bg-gradient-to-r from-green-400 to-emerald-500 text-center text-transparent bg-clip-text'
+                    className='text-3xl bg-gradient-to-r from-green-400 to-emerald-500 text-center text-transparent bg-clip-text mb-3 font-semibold'
                 >
                     Dashboard
                 </p>
@@ -28,7 +28,7 @@ export const DashBoardPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
                     >
-                        <p className='text-xl font-semibold text-green-400 mb-3'>Profile Information</p>
+                        <p className='text-xl font-semibold text-green-400 mb-2'>Profile Information</p>
                         <p className='text-gray-300'>Name: {user?.name} </p>
                         <p className='text-gray-300'>Email: {user?.email}</p>
                     </motion.div>
@@ -38,10 +38,10 @@ export const DashBoardPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                     >
-                        <p className='text-xl font-semibold text-green-400'>Account Activity</p>
+                        <p className='text-xl font-semibold text-green-400 mb-2'>Account Activity</p>
                         <p className='text-gray-300'>
                             <span>Join: </span>
-                            {formatDate(user?.createdAt)}
+                            {user?.createdAt ? formatDate(user.createdAt) : 'No Date Availble'}
                         </p>
                     </motion.div>
                     <motion.div

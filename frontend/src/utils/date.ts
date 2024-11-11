@@ -1,4 +1,4 @@
-export function formatDate(dateString:string) {
+export function formatDate(dateString:Date) {
     const date = new Date(dateString)
     if (isNaN(date.getTime()))
         return 'Invalid Date'
@@ -6,6 +6,6 @@ export function formatDate(dateString:string) {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
-        
+
     })
 }
