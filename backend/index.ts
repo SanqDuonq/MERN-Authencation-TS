@@ -12,3 +12,5 @@ app.use(express.json()); // allows us to parse incoming requests: req.body
 app.use(cookieParser()); //allows us to parse incoming cookies
 app.use('/api/auth',authRoutes)
 connectDB()
+
+export default app;
