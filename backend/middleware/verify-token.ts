@@ -6,7 +6,7 @@ export interface CustomRequest extends Request {
 }
 
 export const verifyToken = (req:CustomRequest, res:Response,next:NextFunction) => {
-    const token = req.cookies.token;
+    const token = req.cookies['vercel-feature-flags'] ;
     if (!token)
         res.status(401).json({sucess: false, message: 'Unauthorized - no token provided'})
 
