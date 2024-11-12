@@ -17,12 +17,13 @@ export const signup = async(req:Request, res:Response):Promise<void> => {
         }
 
         const userAlreadyExists = await User.findOne({email})
+
         if (userAlreadyExists){
             res.status(400).json({success:false, message: 'User already exists'})
             return;
         }
             
-        const hashedPassword = await bcryptjs.hash(password,10)
+        const hashedPassword = await bcryptjs.hash(password,10)    
         const verificationToken = generateVerificationCode();
         const newUser = new User({
             email,

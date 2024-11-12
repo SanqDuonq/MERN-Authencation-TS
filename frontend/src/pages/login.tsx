@@ -11,9 +11,9 @@ export const LoginPage = () => {
   const {login,isLoading,error} = useAuthStore()
   
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     await login(email,password)
     toast.success('Login success')
-    e.preventDefault()
   }
   return (
     <>
