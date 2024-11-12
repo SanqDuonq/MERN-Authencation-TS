@@ -11,9 +11,6 @@ app.use(cors({origin: 'https://mern-authencation-ts.vercel.app/',credentials:tru
 app.use(express.json()); // allows us to parse incoming requests: req.body
 app.use(cookieParser()); //allows us to parse incoming cookies
 
-app.get('/',(req,res:Response) => {
-    res.send('Hello world')
-})
 
 app.use('/api/auth',authRoutes)
 connectDB()
