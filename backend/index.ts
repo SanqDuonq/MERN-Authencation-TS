@@ -1,8 +1,8 @@
-import express, { Request, Response } from 'express'
+import express, { Response } from 'express'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
-import authRoutes from '../backend/routes/auth.route'
 import { connectDB } from './database/connect-database'
+import authRoutes from '../backend/routes/auth.route'
 import cors from 'cors'
 dotenv.config()
 const app = express()

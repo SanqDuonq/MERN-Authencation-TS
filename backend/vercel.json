@@ -2,13 +2,13 @@
     "version": 2,
     "builds": [
         {
-            "src": "index.ts",
+            "src": "backend/index.ts",
             "use": "@vercel/node"
         }
     ],
     "routes": [
         {
-            "src": "/api/auth/(.*)", 
+            "src": "/api/(.*)", 
             "dest": "backend/index.ts"
         }
     ]

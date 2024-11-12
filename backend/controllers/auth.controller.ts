@@ -48,6 +48,7 @@ export const signup = async(req:Request, res:Response):Promise<void> => {
         })
 
     } catch (error) {
+        
         if (!res.headersSent) {
             res.status(500).json({success: false,message: error})
         }
@@ -55,6 +56,7 @@ export const signup = async(req:Request, res:Response):Promise<void> => {
 }
 
 export const login = async(req:Request,res:Response) => {
+    console.log('Login function reached')
     const {email,password} = req.body
     try {
         const user = await User.findOne({email})
@@ -83,6 +85,7 @@ export const login = async(req:Request,res:Response) => {
         })
             
     } catch (error) {
+        console.error('Login error:', error);
         res.status(400).json({
             success: false,
             message: error
