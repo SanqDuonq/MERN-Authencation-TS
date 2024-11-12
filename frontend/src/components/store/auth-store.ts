@@ -62,8 +62,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         set({ error: error.response?.data?.message || 'Error verifying email', isLoading: false });
+        console.log(error)
       } else {
         set({ error: 'An unknown error occurred', isLoading: false });
+        console.log(error)
       }
       throw error;
     }
@@ -121,7 +123,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
     } catch (error) {
         set({isLoading:false})
         console.log('Error resetting password')
-        throw error;
     }
   }
 }));
