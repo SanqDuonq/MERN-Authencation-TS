@@ -7,7 +7,7 @@ import cors from 'cors'
 dotenv.config()
 const app = express()
 
-app.use(cors({origin: 'https://mern-authencation-ts.vercel.app/',credentials:true}))
+app.use(cors({origin: 'https://mern-authencation-ts-fe.vercel.app',credentials:true}))
 app.use(express.json()); // allows us to parse incoming requests: req.body
 app.use(cookieParser()); //allows us to parse incoming cookies
 
