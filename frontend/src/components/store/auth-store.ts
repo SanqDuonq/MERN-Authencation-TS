@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import axios from "axios";
-const API_URL = "https://mern-authencation-ts.vercel.app/api/auth";
-
+import dotenv from 'dotenv'
+dotenv.config();
+const API_URL = process.env.API_URL;
 axios.defaults.withCredentials = true;
 
 interface User {

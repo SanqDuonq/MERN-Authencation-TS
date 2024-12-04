@@ -26,7 +26,7 @@ export const ResetPasswordPage = () => {
             toast.success('Password reset successful')
             setTimeout(() => navigate('/login'),2000)
         } catch (error) {
-            toast.error('Error reseting password')
+            toast.error('Error reset password')
             console.log(error)
         }
     }
