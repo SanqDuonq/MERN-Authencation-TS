@@ -44,7 +44,7 @@ export const signup = async(req:Request, res:Response):Promise<void> => {
 
         res.status(201).json({
             success: true,
-            message: 'User created succesfully',
+            message: 'User created successfully',
             newUser: userObject
         })
 
@@ -78,11 +78,11 @@ export const login = async(req:Request,res:Response) => {
 
         await user.save()
 
-        const {password:_,...userObejct} = user.toObject()
+        const {password:_,...userObject} = user.toObject()
         res.status(200).json({
             success: true,
             message: 'Logged in successfully',
-            user: userObejct
+            user: userObject
         })
             
     } catch (error) {
@@ -151,7 +151,7 @@ export const forgotPassword = async (req:Request, res:Response) => {
         await user.save()
 
         //Send Email
-        await sendPasswordReset(user.email,`${process.env.CLIENT_URL}/reset-password/${resetToken}`)
+        await sendPasswordReset(user.email,`https://mern-authencation-ts-fe.vercel.app/reset-password/${resetToken}`)
         
         res.status(200).json({
             success: true,

@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
 const API_URL = 'https://mern-authencation-ts.vercel.app/'
-const API_URL_Forgot = 'https://mern-authencation-ts-fe.vercel.app/'
 
 axios.defaults.withCredentials = true;
 
@@ -157,7 +156,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   resetPassword: async (token, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL_Forgot}/reset-password/${token}`, {
+      const response = await axios.post(`${API_URL}/reset-password/${token}`, {
         password,
       });
       set({ message: response.data.message, isLoading: false });
