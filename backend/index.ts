@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
-app.use(cors({origin: 'https://mern-authencation-ts-fe.vercel.app',credentials:true}))
+app.use(cors({origin: `https://mern-authencation-ts-fe.vercel.app`,credentials:true}))
 app.use(express.json()); 
 app.use(cookieParser()); 
 app.use('/api/auth',authRoutes)
