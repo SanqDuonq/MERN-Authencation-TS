@@ -57,7 +57,6 @@ export const signup = async(req:Request, res:Response):Promise<void> => {
 }
 
 export const login = async(req:Request,res:Response) => {
-    console.log('Login function reached')
     const {email,password} = req.body
     try {
         const user = await User.findOne({email})
@@ -67,7 +66,6 @@ export const login = async(req:Request,res:Response) => {
             return;
         }
         const isPasswordValid = await bcryptjs.compare(password,user.password)
-
         if (!isPasswordValid)
         {
             res.status(400).json({success: false, message: 'Invalid credentials'})
@@ -75,16 +73,13 @@ export const login = async(req:Request,res:Response) => {
         generateTokenAndSetCookie(res,user._id.toString())
 
         user.lastLogin = new Date()
-
-        await user.save()
-
+        await user.save();
         const {password:_,...userObject} = user.toObject()
         res.status(200).json({
             success: true,
             message: 'Logged in successfully',
             user: userObject
         })
-            
     } catch (error) {
         console.error('Login error:', error);
         res.status(400).json({
